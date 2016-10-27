@@ -23,7 +23,7 @@ class PanoptoSessionManagementSoapClient extends SoapClient{
     public $uri;
     public $wsLocation = '/Panopto/PublicAPI/4.6/SessionManagement.svc?wsdl' ;
     public function __construct($servername,$apiuseruserkey, $apiuserauthcode, $password) {
-
+        global $CFG;
 
         $this->ApiUserKey = $apiuseruserkey;
 
@@ -39,7 +39,9 @@ class PanoptoSessionManagementSoapClient extends SoapClient{
         parent::__construct
         (
             $locationuri,
-            array('trace' => TRUE,'cache_wsdl' => WSDL_CACHE_NONE)
+            array('trace' => TRUE,'cache_wsdl' => WSDL_CACHE_NONE ,
+                'proxy_host' => $CFG->proxyhost,
+                'proxy_port' => $CFG->proxyport)
         );
 
     }
