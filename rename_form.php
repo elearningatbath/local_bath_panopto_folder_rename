@@ -17,11 +17,14 @@ class panopto_rename_form extends moodleform {
         $mform = & $this->_form;
         $select_query = "id <> 1";
         $coursesraw = $DB->get_records_select('course', $select_query, null, 'id, shortname, fullname');
+        $panoptocourses = $DB->get_records('block_panopto_foldermap');
         $courses = array();
-        if ($coursesraw) {
-            foreach ($coursesraw as $course) {
-                $courses[$course->id] = $course->shortname . ': ' . $course->fullname;
+        foreach ($panoptocourses as $course){
+            $moodlecourse = $DB->get_record('course', array('id' => $course->moodleid));
+            if (!$moodlecourse) {
+                continue;
             }
+            $courses[$moodlecourse->id] = $moodlecourse->shortname.':'.$moodlecourse->fullname;
         }
         asort($courses);
 
