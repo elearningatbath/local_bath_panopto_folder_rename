@@ -43,6 +43,14 @@ class PanoptoSessionManagementSoapClient extends SoapClient{
                 'proxy_host' => $CFG->proxyhost,
                 'proxy_port' => $CFG->proxyport)
         );
+        if (empty(self::$curloptions)) {
+            self::$curloptions = array(
+                CURLOPT_PROXY => $CFG->proxyhost,
+                CURLOPT_PROXYPORT => $CFG->proxyport,
+                CURLOPT_PROXYTYPE => (($CFG->proxytype === 'HTTP') ? CURLPROXY_HTTP : CURLPROXY_SOCKS5),
+                CURLOPT_PROXYUSERPWD => ((empty($CFG->proxypassword)) ? $CFG->proxyuser : "{$CFG->proxyuser}:{$CFG->proxypassword}"),
+            );
+        }
 
     }
 
