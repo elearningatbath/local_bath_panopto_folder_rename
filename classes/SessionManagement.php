@@ -21,6 +21,7 @@ class PanoptoSessionManagementSoapClient extends SoapClient{
     public $currentURI = 'http://tempuri.org/ISessionManagement/';
     public $currentaction;
     public $uri;
+    private static $curloptions;
     public $wsLocation = '/Panopto/PublicAPI/4.6/SessionManagement.svc?wsdl' ;
     public function __construct($servername,$apiuseruserkey, $apiuserauthcode, $password) {
         global $CFG;
@@ -36,12 +37,17 @@ class PanoptoSessionManagementSoapClient extends SoapClient{
 
         // Instantiate SoapClient in WSDL mode.
         //Set call timeout to 5 minutes.
+        $soap_options = array();
+        $soap_options['trace'] = true;
+        $soap_options['cache_wsdl'] = WSDL_CACHE_NONE;
+        if(!empty($CFG->proxyhost) && !empty($CFG->proxyport)){
+            $soap_options['proxy_host']  = $CFG->proxyhost;
+            $soap_options['proxy_port'] = $CFG->proxyport;
+        }
         parent::__construct
         (
             $locationuri,
-            array('trace' => TRUE,'cache_wsdl' => WSDL_CACHE_NONE ,
-                'proxy_host' => $CFG->proxyhost,
-                'proxy_port' => $CFG->proxyport)
+            $soap_options
         );
         if (empty(self::$curloptions)) {
             self::$curloptions = array(
