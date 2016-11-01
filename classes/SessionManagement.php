@@ -40,6 +40,7 @@ class PanoptoSessionManagementSoapClient extends SoapClient{
         $soap_options = array();
         $soap_options['trace'] = true;
         $soap_options['cache_wsdl'] = WSDL_CACHE_NONE;
+        $soap_options['uri'] = "https://". $this->Servername;
         if(!empty($CFG->proxyhost) && !empty($CFG->proxyport)){
             $soap_options['proxy_host']  = $CFG->proxyhost;
             $soap_options['proxy_port'] = $CFG->proxyport;
