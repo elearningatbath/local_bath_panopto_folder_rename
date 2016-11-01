@@ -46,8 +46,10 @@ class PanoptoSessionManagementSoapClient extends SoapClient{
             $soap_options['proxy_port'] = $CFG->proxyport;
             $soap_options['stream_context'] = stream_context_create(
                 array(
-                    'proxy' => "tcp://$CFG->proxyhost:$CFG->proxyport",
-                    'request_fulluri' => true,
+                    'http'=>array(
+                        'proxy' => "tcp://$CFG->proxyhost:$CFG->proxyport",
+                        'request_fulluri' => true
+                    )
                 )
             );
         }
