@@ -44,6 +44,12 @@ class PanoptoSessionManagementSoapClient extends SoapClient{
         if(!empty($CFG->proxyhost) && !empty($CFG->proxyport)){
             $soap_options['proxy_host']  = $CFG->proxyhost;
             $soap_options['proxy_port'] = $CFG->proxyport;
+            $soap_options['stream_context'] = stream_context_create(
+                array(
+                    'proxy' => "tcp://$CFG->proxyhost:$CFG->proxyport",
+                    'request_fulluri' => true,
+                )
+            );
         }
         parent::__construct
         (
